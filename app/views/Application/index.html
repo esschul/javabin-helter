@@ -1,0 +1,98 @@
+#{extends 'main.html' /}
+#{set title:'javaBin:Helter' /}
+
+<script type="text/javascript" charset="utf-8">
+	$('a').live('click', function(){
+		$('#bilde_' + $(this).attr('id')).toggle();
+	})
+</script>
+
+
+<body>
+	
+	<div id="box">
+		<div id="head">
+			<h1>Velkommen til javaBin:Helter!</h1>
+	</div>
+	
+	<div id="left">
+			<h1>Helter : ${helter.size()}</h1>
+				#{if helter.size() == 0}
+					Ingen helter registrert :(
+				#{/if}
+				#{list items:helter, as:'helt'}
+					<a href="@{Application.leggTilHeltepoeng(helt.id)}">+</a>/<a href="@{Application.trekkFraHeltepoeng(helt.id)}">-</a>
+					<a href="javascript:" id='${helt.id}'>${helt?.fulltNavn}</a> 
+					#{if helt?.twitterBrukernavn}<a href="http://www.twitter.com/${helt?.twitterBrukernavn}"><img src="@{'/public/images/twitter.png'}" border="0" width="15"/></a>#{/if}<br/>  
+					Heltepoeng : ${helt?.heltepoeng}
+					<div id="bilde_${helt?.id}" style="display:none; margin-left:10px;">
+						#{if !helt?.bilde?.get()?.getName()}Helten har ikke bilde!#{/if}
+						<img src="/attachments/${helt?.bilde?.get()?.getName()}" width="150" />
+					</div><br/>
+				#{/list}
+	</div>
+
+
+	<div id="right">
+		<h1>Om javaBin</h1>
+		javaBin er en non- profit, uavhengig organisasjon. Formålet er å fremme java kompetanse blant medlemmer, medlemsbedrifter og markedet. javaBin har hovedkontor i Oslo, med undergrupper i Stavanger, Bergen, Trondheim og på Sørlandet. 
+	</div>
+
+
+<div id="content">
+<h1>Registrer en helt i javaBin</h1>
+<form action="@{Application.opprett()}" method="POST" enctype="multipart/form-data">
+
+	<p>
+	#{ifErrors}
+	   <h2>Oj da!</h2>
+	   #{errors}
+	       <li>${error}</li>
+	   #{/errors}
+	#{/ifErrors}
+	</p>
+
+	<table>
+		<tr>
+			<td>Navn:</td>
+			<td><input type="text" name="fulltNavn"/></td>
+		</tr>
+		<tr>
+			<td>Twitternavn:</td>
+			<td><input type="text" name="twitterBrukernavn"/></td>
+		</tr>
+
+		<tr>
+			<td>Bilde:</td>
+			<td><input type="file" name="photo"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><i>Er du ikke aktiv i miljøet ennå? Skriv din epost :)</i></td>
+		</tr>
+		<tr>
+			<td>E-post:</td>
+			<td><input type="text" name="epostAdresseMottaker"/></td>
+		</tr>
+
+
+		<tr>
+			<td>&nbsp;</td>
+			<td><img src="@{Application.captcha(randomId)}" /><input type="hidden" name="randomId" value="${randomId}" /></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="text" name="code" id="code" value="" /></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="Registrer helten!"></td>
+		</tr>
+</form>
+<p>
+Hvis du har jobbet med å organisere i communityet, registrer deg her!	
+javaBin trenger din støtte! Bli en helt i dag du også!
+</p>
+</div>
+
+
+
+</body>

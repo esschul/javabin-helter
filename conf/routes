@@ -1,0 +1,20 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                       Application.index
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+
+
+GET /attachments/ staticDir:attachments
+
+GET     /captcha                                Application.captcha
+
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
+

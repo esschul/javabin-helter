@@ -1,0 +1,3 @@
+20:05:38,585 INFO  ~ Starting /Users/es/dev/code/helter
+20:05:39,242 WARN  ~ You're running Play! in DEV mode
+20:05:39,330 ERROR ~ Could not bind on port 9000
